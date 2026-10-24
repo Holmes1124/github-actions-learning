@@ -1,0 +1,29 @@
+name: 05 Save Artifact
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 创建报告
+        run: |
+          mkdir -p reports
+
+          cat > reports/result.txt <<REPORT
+          GitHub Actions 学习报告
+          仓库：${{ github.repository }}
+          运行编号：${{ github.run_number }}
+          提交：${{ github.sha }}
+          REPORT
+
+          cat reports/result.txt
+
+      - name: 上传报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-report
+          path: reports/
+          retention-days: 7
