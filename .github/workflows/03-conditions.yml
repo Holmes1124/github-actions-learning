@@ -1,0 +1,35 @@
+name: 03 Success And Failure
+
+on:
+  workflow_dispatch:
+    inputs:
+      should_fail:
+        description: 是否故意失败
+        type: boolean
+        default: false
+
+jobs:
+  test-conditions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 正常步骤
+        run: echo "这个步骤正常执行"
+
+      - name: 可能失败的步骤
+        if: ${{ inputs.should_fail }}
+        run: |
+          echo "准备故意失败"
+          exit 1
+
+      - name: 成功后执行
+        if: ${{ success() }}
+        run: echo "前面的步骤都成功了"
+
+      - name: 失败后执行
+        if: ${{ failure() }}
+        run: echo "检测到失败，可以在这里收集日志"
+
+      - name: 无论成功失败都执行
+        if: ${{ always() }}
+        run: echo "这个步骤总会尝试执行"
