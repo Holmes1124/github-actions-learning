@@ -1,0 +1,28 @@
+name: 04 Node Matrix
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-node-versions:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - 22
+          - 24
+
+    steps:
+      - name: 设置 Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: 验证版本
+        run: |
+          node --version
+          npm --version
+          node -p "process.platform + ' / ' + process.arch"
