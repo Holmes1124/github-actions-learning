@@ -1,0 +1,29 @@
+name: 01 Hello Actions
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hello:
+    name: 我的第一个 Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 查看 Runner 环境
+        run: |
+          echo "Hello GitHub Actions"
+          echo "当前目录："
+          pwd
+          echo "系统信息："
+          uname -a
+
+      - name: 拉取仓库代码
+        uses: actions/checkout@v6
+
+      - name: 查看仓库文件
+        run: |
+          echo "仓库文件如下："
+          ls -la
