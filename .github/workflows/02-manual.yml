@@ -1,0 +1,35 @@
+name: 02 Manual Inputs
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 请输入你的名字
+        required: true
+        default: beginner
+      show_details:
+        description: 是否显示详细信息
+        type: boolean
+        default: false
+
+jobs:
+  show-information:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 显示基本信息
+        env:
+          INPUT_USERNAME: ${{ inputs.username }}
+        run: |
+          echo "你好，$INPUT_USERNAME"
+          echo "仓库：${{ github.repository }}"
+          echo "触发人：${{ github.actor }}"
+          echo "运行次数：${{ github.run_number }}"
+          echo "Runner 系统：${{ runner.os }}"
+
+      - name: 显示详细信息
+        if: ${{ inputs.show_details }}
+        run: |
+          echo "分支或标签：${{ github.ref_name }}"
+          echo "提交 SHA：${{ github.sha }}"
+          echo "本次运行 ID：${{ github.run_id }}"
